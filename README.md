@@ -70,25 +70,3 @@ npm run build
 6. **Dark Mode**:
    - The theme toggle (sun/moon icon) works across all pages. The preference is saved in `localStorage` so it persists as you navigate.
 
----
-
-## 📦 Guide for the Seller (How to Package & Sell)
-
-If you are preparing to upload this template to marketplaces (like ThemeForest, UI8, or Gumroad), follow these steps:
-
-**1. Clean Up the Directory**
-- Delete the `node_modules` folder. (Buyers will generate this themselves when they run `npm install`).
-- Make sure to run `npm run build` one last time so `dist/css/style.css` is fully updated and minified.
-
-**2. Prepare the ZIP Archive**
-- Select all the files and folders (excluding `node_modules` and `.git` if you use it).
-- Compress them into a `.zip` file. Name it something professional like `FinDash_Template_v1.0.zip`.
-
-**3. Prepare Promotional Assets**
-- **Screenshots**: Take high-quality screenshots of all 5 pages in both Light Mode and Dark Mode.
-- **Thumbnail**: Create a catchy 1920x1080 (or standard aspect ratio for your marketplace) cover image showing the Dashboard on a laptop mockup.
-- **Live Preview**: Host the HTML files on a free service like GitHub Pages, Vercel, or Netlify so potential buyers can test the UI before buying.
-
-**4. Pricing & Licensing**
-- Provide clear instructions on what is included.
-- Consider offering a Standard license (for a single personal project) and an Extended license (for SaaS integration or multiple commercial projects).
