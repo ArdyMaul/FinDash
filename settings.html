@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{ 
+  darkMode: localStorage.getItem('theme') === 'dark',
+  sidebarOpen: false,
+  activeTab: 'profile',
+  showDeleteConfirm: false,
+  toggleTheme() {
+    this.darkMode = !this.darkMode;
+    localStorage.setItem('theme', this.darkMode ? 'dark' : 'light');
+  }
+}" :class="{ 'dark': darkMode }">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - FinDash Premium Finance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="./dist/css/style.css" rel="stylesheet">
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="transition-colors duration-200">
+  <div class="flex h-screen overflow-hidden">
+
+    <div x-show="sidebarOpen" x-transition.opacity class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-40 md:hidden" @click="sidebarOpen = false"></div>
+
+    <!-- Sidebar -->
+    <aside class="fixed inset-y-0 left-0 z-50 w-64 glass-card border-l-0 border-y-0 border-r transition-transform duration-300 ease-in-out transform md:relative md:translate-x-0 flex flex-col" :class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}">
+      <div class="flex items-center justify-between h-20 px-6 border-b border-slate-100 dark:border-white/5 shrink-0">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 bg-brand-500 rounded-lg flex items-center justify-center text-white shadow-glow"><i class="ph ph-command text-xl"></i></div>
+          <span class="text-xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-navy-900 to-navy-700 dark:from-white dark:to-slate-300">FinDash</span>
+        </div>
+        <button @click="sidebarOpen = false" class="md:hidden p-2 -mr-2 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors"><i class="ph ph-x text-xl"></i></button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto py-6 flex flex-col gap-1 px-4">
+        <p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Main Menu</p>
+        <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-navy-700/50 dark:hover:text-white transition-colors"><i class="ph ph-squares-four text-lg"></i> Dashboard</a>
+        <a href="transactions.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-navy-700/50 dark:hover:text-white transition-colors"><i class="ph ph-arrows-left-right text-lg"></i> Transactions</a>
+        <a href="budgets.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl text-slate-500 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-navy-700/50 dark:hover:text-white transition-colors"><i class="ph ph-wallet text-lg"></i> Budgets</a>
+        <p class="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mt-6 mb-2">Account</p>
+        <a href="settings.html" class="flex items-center gap-3 px-3 py-2.5 text-sm font-semibold rounded-xl bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400"><i class="ph-fill ph-gear text-lg"></i> Settings</a>
+      </div>
+
+      <div class="p-4 border-t border-slate-100 dark:border-white/5 shrink-0">
+        <div class="bg-gradient-to-br from-brand-50 to-brand-100 dark:from-navy-700 dark:to-navy-800 rounded-2xl p-4 relative overflow-hidden">
+          <div class="absolute -right-4 -top-4 w-16 h-16 bg-brand-500/10 rounded-full blur-xl"></div>
+          <h4 class="text-sm font-bold text-slate-900 dark:text-white relative z-10">Pro Plan</h4>
+          <p class="text-xs text-slate-500 dark:text-slate-400 mt-1 relative z-10">Access all premium features</p>
+          <button class="mt-3 w-full py-2 bg-white dark:bg-navy-900 text-brand-600 dark:text-brand-400 text-xs font-bold rounded-lg shadow-sm hover:shadow transition-all relative z-10">Upgrade Now</button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+      <!-- Topbar -->
+      <header class="h-20 px-4 sm:px-6 lg:px-8 glass-header z-30 sticky top-0 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-4">
+          <button @click="sidebarOpen = true" class="md:hidden p-2 -ml-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"><i class="ph ph-list text-2xl"></i></button>
+          <h1 class="text-xl font-bold text-slate-900 dark:text-white hidden sm:block">Settings</h1>
+        </div>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button @click="toggleTheme()" class="p-2.5 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-xl hover:bg-slate-100 dark:hover:bg-navy-800 transition-colors"><i class="ph text-xl" :class="darkMode ? 'ph-sun' : 'ph-moon'"></i></button>
+          <div class="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1 hidden sm:block"></div>
+          <div class="relative" x-data="{ profileOpen: false }">
+            <button @click="profileOpen = !profileOpen" @click.away="profileOpen = false" class="flex items-center gap-3 hover:opacity-80 transition-opacity pl-2">
+              <img src="https://ui-avatars.com/api/?name=Alex+Rivera&background=14b8a6&color=fff" alt="Avatar" class="w-9 h-9 rounded-xl shadow-sm">
+            </button>
+            <div x-show="profileOpen" x-transition.origin.top.right class="absolute right-0 mt-3 w-56 glass-card rounded-2xl shadow-xl py-2 z-50" style="display: none;">
+              <a href="settings.html" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-navy-700/50 transition-colors"><i class="ph ph-user text-lg text-slate-400"></i> My Profile</a>
+              <div class="h-px bg-slate-100 dark:bg-white/5 my-2"></div>
+              <a href="login.html" class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"><i class="ph ph-sign-out text-lg"></i> Sign out</a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto">
+
+          <!-- Tabs -->
+          <div class="flex space-x-1 border-b border-slate-200 dark:border-white/5 mb-8 overflow-x-auto">
+            <button @click="activeTab = 'profile'" :class="{'border-brand-500 text-brand-600 dark:text-brand-400': activeTab === 'profile', 'border-transparent text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white': activeTab !== 'profile'}" class="whitespace-nowrap pb-4 px-4 border-b-2 font-bold text-sm transition-colors flex items-center gap-2">
+              <i class="ph ph-user"></i> Profile
+            </button>
+            <button @click="activeTab = 'security'" :class="{'border-brand-500 text-brand-600 dark:text-brand-400': activeTab === 'security', 'border-transparent text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white': activeTab !== 'security'}" class="whitespace-nowrap pb-4 px-4 border-b-2 font-bold text-sm transition-colors flex items-center gap-2">
+              <i class="ph ph-lock"></i> Security
+            </button>
+            <button @click="activeTab = 'notifications'" :class="{'border-brand-500 text-brand-600 dark:text-brand-400': activeTab === 'notifications', 'border-transparent text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white': activeTab !== 'notifications'}" class="whitespace-nowrap pb-4 px-4 border-b-2 font-bold text-sm transition-colors flex items-center gap-2">
+              <i class="ph ph-bell"></i> Notifications
+            </button>
+            <button @click="activeTab = 'preferences'" :class="{'border-brand-500 text-brand-600 dark:text-brand-400': activeTab === 'preferences', 'border-transparent text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white': activeTab !== 'preferences'}" class="whitespace-nowrap pb-4 px-4 border-b-2 font-bold text-sm transition-colors flex items-center gap-2">
+              <i class="ph ph-sliders-horizontal"></i> Preferences
+            </button>
+          </div>
+
+          <!-- Profile Tab -->
+          <div x-show="activeTab === 'profile'">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 mb-6">
+              <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-8">
+                <img src="https://ui-avatars.com/api/?name=Alex+Rivera&background=14b8a6&color=fff&size=80" alt="Avatar" class="w-20 h-20 rounded-2xl border border-slate-200 dark:border-white/10 shadow-sm">
+                <div class="flex-1">
+                  <h3 class="text-lg font-bold text-slate-900 dark:text-white">Alex Rivera</h3>
+                  <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">alex.rivera@example.com</p>
+                  <div class="flex gap-3 mt-4">
+                    <button class="px-5 py-2.5 bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400 font-bold text-sm rounded-xl hover:bg-brand-100 dark:hover:bg-brand-500/20 transition-colors">Change Photo</button>
+                    <button class="px-5 py-2.5 text-slate-500 dark:text-slate-400 hover:text-red-500 dark:hover:text-red-400 font-bold text-sm transition-colors">Remove</button>
+                  </div>
+                </div>
+              </div>
+
+              <form class="space-y-6" @submit.prevent="alert('Profile saved.')">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">First Name</label>
+                    <input type="text" value="Alex" class="w-full px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Last Name</label>
+                    <input type="text" value="Rivera" class="w-full px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Email Address</label>
+                    <input type="email" value="alex.rivera@example.com" class="w-full px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Phone</label>
+                    <input type="tel" value="+1 (555) 123-4567" class="w-full px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all">
+                  </div>
+                </div>
+                <div class="pt-4 border-t border-slate-100 dark:border-white/5 flex justify-end">
+                  <button type="submit" class="px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-glow hover:shadow-none hover:translate-y-0.5 transition-all">Save Changes</button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="glass-card rounded-2xl p-6 sm:p-8 border-red-200 dark:border-red-500/20">
+              <h3 class="text-lg font-bold text-red-600 dark:text-red-400 mb-2">Danger Zone</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mb-4">Deleting your account removes all data permanently. This action cannot be undone.</p>
+              <button @click="showDeleteConfirm = true" class="px-5 py-2.5 bg-white dark:bg-navy-800 border border-red-300 dark:border-red-500/30 text-red-600 dark:text-red-400 font-bold text-sm rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors">Delete Account</button>
+            </div>
+          </div>
+
+          <!-- Security Tab -->
+          <div x-show="activeTab === 'security'" style="display: none;">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 mb-6">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Change Password</h3>
+              <form class="space-y-6" @submit.prevent="alert('Password updated.')">
+                <div>
+                  <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Current Password</label>
+                  <input type="password" required class="w-full max-w-md px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">New Password</label>
+                  <input type="password" required class="w-full max-w-md px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all">
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Confirm New Password</label>
+                  <input type="password" required class="w-full max-w-md px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all">
+                </div>
+                <div class="pt-4 border-t border-slate-100 dark:border-white/5">
+                  <button type="submit" class="px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-glow hover:shadow-none hover:translate-y-0.5 transition-all">Update Password</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 sm:p-8">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Two-Factor Authentication</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Add a layer of security to your account by enabling 2FA.</p>
+              <div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-navy-900/50 rounded-xl border border-slate-200 dark:border-white/5">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-xl bg-brand-50 dark:bg-brand-500/10 text-brand-500 flex items-center justify-center text-lg"><i class="ph ph-shield-check"></i></div>
+                  <div>
+                    <p class="font-semibold text-slate-900 dark:text-white text-sm">Authenticator App</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Google Authenticator, Authy, etc.</p>
+                  </div>
+                </div>
+                <button class="px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white text-sm font-bold rounded-xl transition-colors" @click="alert('2FA setup initiated.')">Enable</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications Tab -->
+          <div x-show="activeTab === 'notifications'" style="display: none;">
+            <div class="glass-card rounded-2xl p-6 sm:p-8">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Notification Preferences</h3>
+              <div class="space-y-0 divide-y divide-slate-100 dark:divide-white/5">
+                <div class="flex items-center justify-between py-5">
+                  <div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">Transaction Alerts</h4>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Get notified for every transaction</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-slate-200 rounded-full peer dark:bg-navy-900 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between py-5">
+                  <div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">Budget Warnings</h4>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Alert when a budget reaches 80%</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-slate-200 rounded-full peer dark:bg-navy-900 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between py-5">
+                  <div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">Weekly Summary</h4>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Receive a weekly digest of your spending</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-slate-200 rounded-full peer dark:bg-navy-900 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between py-5">
+                  <div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">Monthly Report</h4>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">End-of-month financial report via email</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-slate-200 rounded-full peer dark:bg-navy-900 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between py-5">
+                  <div>
+                    <h4 class="font-semibold text-slate-900 dark:text-white text-sm">Marketing Emails</h4>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">News, tips, and product updates</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-slate-200 rounded-full peer dark:bg-navy-900 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-500"></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preferences Tab -->
+          <div x-show="activeTab === 'preferences'" style="display: none;">
+            <div class="glass-card rounded-2xl p-6 sm:p-8 mb-6">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Display Preferences</h3>
+              <form class="space-y-6" @submit.prevent="alert('Preferences saved.')">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Currency</label>
+                    <select class="w-full px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all appearance-none cursor-pointer">
+                      <option>USD ($)</option>
+                      <option>EUR (&#8364;)</option>
+                      <option>GBP (&#163;)</option>
+                      <option>IDR (Rp)</option>
+                      <option>JPY (&#165;)</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Timezone</label>
+                    <select class="w-full px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all appearance-none cursor-pointer">
+                      <option>UTC-05:00 Eastern</option>
+                      <option>UTC-06:00 Central</option>
+                      <option>UTC-07:00 Mountain</option>
+                      <option>UTC-08:00 Pacific</option>
+                      <option>UTC+07:00 Jakarta</option>
+                      <option>UTC+09:00 Tokyo</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Date Format</label>
+                    <select class="w-full px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all appearance-none cursor-pointer">
+                      <option>MM/DD/YYYY</option>
+                      <option>DD/MM/YYYY</option>
+                      <option>YYYY-MM-DD</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Language</label>
+                    <select class="w-full px-4 py-3 bg-slate-50 dark:bg-navy-900/50 border border-slate-200 dark:border-white/5 rounded-xl font-semibold text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 dark:text-white transition-all appearance-none cursor-pointer">
+                      <option>English</option>
+                      <option>Bahasa Indonesia</option>
+                      <option>Espa&#241;ol</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="pt-4 border-t border-slate-100 dark:border-white/5 flex justify-end">
+                  <button type="submit" class="px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-glow hover:shadow-none hover:translate-y-0.5 transition-all">Save Preferences</button>
+                </div>
+              </form>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 sm:p-8">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Data Export</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">Download all your transaction history and budget data.</p>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <button class="px-5 py-3 bg-white dark:bg-navy-800 border border-slate-200 dark:border-white/5 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-xl hover:bg-slate-50 dark:hover:bg-navy-700 transition-colors flex items-center gap-2" @click="alert('CSV export started.')">
+                  <i class="ph ph-file-csv text-lg text-slate-400"></i> Export as CSV
+                </button>
+                <button class="px-5 py-3 bg-white dark:bg-navy-800 border border-slate-200 dark:border-white/5 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-xl hover:bg-slate-50 dark:hover:bg-navy-700 transition-colors flex items-center gap-2" @click="alert('PDF export started.')">
+                  <i class="ph ph-file-pdf text-lg text-slate-400"></i> Export as PDF
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+
+    <!-- Delete Account Confirmation Modal -->
+    <div x-show="showDeleteConfirm" class="fixed inset-0 z-[60] flex items-center justify-center p-4" style="display: none;">
+      <div x-show="showDeleteConfirm" x-transition.opacity class="absolute inset-0 bg-navy-900/60 backdrop-blur-sm" @click="showDeleteConfirm = false"></div>
+      <div x-show="showDeleteConfirm"
+           x-transition:enter="transition ease-out duration-300"
+           x-transition:enter-start="opacity-0 scale-95"
+           x-transition:enter-end="opacity-100 scale-100"
+           class="relative w-full max-w-sm glass-card rounded-2xl shadow-2xl p-6 text-center">
+        <div class="w-14 h-14 rounded-full bg-red-50 dark:bg-red-500/10 text-red-500 flex items-center justify-center text-2xl mx-auto mb-4">
+          <i class="ph ph-warning"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Delete Account?</h3>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mb-6">All your data will be permanently removed. This cannot be undone.</p>
+        <div class="flex gap-3">
+          <button @click="showDeleteConfirm = false" class="flex-1 py-3 bg-white dark:bg-navy-800 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-300 font-bold rounded-xl hover:bg-slate-50 dark:hover:bg-navy-700 transition-colors">Cancel</button>
+          <button @click="showDeleteConfirm = false; alert('Account deleted.')" class="flex-1 py-3 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl transition-colors">Delete</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

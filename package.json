@@ -1,0 +1,12 @@
+{
+  "name": "premium-finance-template",
+  "version": "1.0.0",
+  "description": "Premium Personal Finance Dashboard HTML Template",
+  "scripts": {
+    "dev": "tailwindcss -i ./src/css/tailwind.css -o ./dist/css/style.css --watch",
+    "build": "tailwindcss -i ./src/css/tailwind.css -o ./dist/css/style.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
